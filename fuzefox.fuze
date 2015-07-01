@@ -1,0 +1,107 @@
+setmode( 840, 480 )
+centerX = gwidth / 2
+centerY = gheight / 2
+shipX = centerX
+shipY = centerY
+angle = 0
+speed = 5
+maxdots = 20
+dim dots( maxdots )
+dim dotsdist( maxdots )
+for i = 0 to maxdots cycle
+	dots( i ) = rnd( 160 ) + 200
+	dotsdist( i ) = rnd( gheight )
+repeat
+cls2
+updatemode = 0
+cycle
+	if scankeyboard( scana ) then
+		if angle > -40 then
+			angle = angle - 4
+		endif
+	endif
+	if scankeyboard( scand ) then
+		if angle < 40 then
+			angle = angle + 4
+		endif
+	endif
+	colour = green
+	polystart
+		polyplot( gwidth, 0 )
+		polyplot( 0, 0 )
+		polyplot( ( ( gwidth * cos( angle + 180 ) ) + centerX ), ( ( ( gwidth * sin( angle ) ) + centerY ) ) )
+		polyplot( ( ( gwidth * cos( angle ) ) + centerX ), ( ( ( gwidth * sin( angle + 180 ) ) + centerY ) ) )
+	polyend
+	colour = blue
+	polystart
+		polyplot( ( ( gwidth * cos( angle ) ) + centerX ), ( ( ( gwidth * sin( angle + 180 ) ) + centerY ) ) )
+		polyplot( ( ( gwidth * cos( angle + 180 ) ) + centerX ), ( ( ( gwidth * sin( angle ) ) + centerY ) ) )
+		polyplot( 0, gheight )
+		polyplot( gwidth, gheight )
+	polyend
+	colour = white
+	for i = 0 to maxdots cycle
+		plot( ( ( ( dotsdist( i ) * cos( dots( i ) - angle ) ) ) + centerX ), ( ( ( dotsdist( i ) * sin( dots( i ) - angle ) ) ) + centerY ) )
+		dotsdist( i ) = dotsdist( i ) + speed
+		if dotsdist( i ) > gwidth / 2 then
+			dots( i ) = rnd( 180 ) + 180
+			dotsdist( i ) = gwidth / 10
+		endif
+	repeat
+	rgbcolour( 50, 50, 255 )
+	polystart
+		polyplot( shipX - 100, shipY + 70 )
+		polyplot( shipX - 60, shipY - 30 )
+		polyplot( shipX - 40, shipY - 10 )
+	polyend
+	polystart
+		polyplot( shipX + 100, shipY + 70 )
+		polyplot( shipX + 60, shipY - 30 )
+		polyplot( shipX + 40, shipY - 10 )
+	polyend
+	rgbcolour( rnd( 105 ) + 150, 0, 0 )
+	polystart
+		polyplot( shipX - 40, shipY - 10 )
+		polyplot( shipX + 40, shipY - 10 )
+		polyplot( shipX, shipY + 10 )
+	polyend
+	rgbcolour( 200, 200, 200 )
+	polystart
+		polyplot( shipX - 40, shipY - 10 )
+		polyplot( shipX, shipY + 10 )
+		polyplot( shipX, shipY + 30 )
+	polyend
+	polystart
+		polyplot( shipX - 40, shipY - 10 )
+		polyplot( shipX - 80, shipY - 10 )
+		polyplot( shipX - 200, shipY - 70 )
+	polyend
+	polystart
+		polyplot( shipX + 40, shipY - 10 )
+		polyplot( shipX + 80, shipY - 10 )
+		polyplot( shipX + 200, shipY - 70 )
+	polyend
+	rgbcolour( 150, 150, 150 )
+	polystart
+		polyplot( shipX + 40, shipY - 10 )
+		polyplot( shipX, shipY + 10 )
+		polyplot( shipX, shipY + 30 )
+	polyend
+	polystart
+		polyplot( shipX + 40, shipY - 10 )
+		polyplot( shipX + 60, shipY - 25 )
+		polyplot( shipX + 200, shipY - 70 )
+	polyend
+	rgbcolour( 120, 120, 120 )
+	polystart
+		polyplot( shipX - 40, shipY - 10 )
+		polyplot( shipX - 60, shipY - 25 )
+		polyplot( shipX - 200, shipY - 70 )
+	polyend
+	update
+	cls2
+repeat
+end
+
+( ( ( radius * cos( angle ) ) ) + centerX ) // x rotation
+( ( ( radius * sin( angle ) ) ) + centerY ) // y rotation
